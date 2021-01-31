@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
-import styles from './ImageGallery.module.css';
+import ImageGalleryItem from "../Modal/Modal";
+ import styles from './ImageGallery.module.css';
 
 const ImageGallery = ({  }) => {
     return (
         <ul className={styles.ImageGallery}>
-  
+          <ImageGalleryItem/>
         </ul>
     );
   };
