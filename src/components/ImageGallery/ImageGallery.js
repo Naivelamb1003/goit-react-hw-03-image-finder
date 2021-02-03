@@ -14,7 +14,7 @@ const Status = {
 class ImageGallery extends Component {
 
   state = {
-    image: null,
+    images: null,
     error: null,
     status: Status.IDLE,
   };
@@ -29,7 +29,7 @@ class ImageGallery extends Component {
       setTimeout(() => {
         ImageAPI
           .fetchImage(nextSearch)
-          .then(image => this.setState({ image, status: Status.RESOLVED }))
+          .then(images => this.setState({ images, status: Status.RESOLVED }))
           .catch(error => this.setState({ error, status: Status.REJECTED }));
       }, 2000);
     }
@@ -37,7 +37,7 @@ class ImageGallery extends Component {
 
   render() {
 
-    const { image, error, status } = this.state;
+    const { images, error, status } = this.state;
     const { searchQuery } = this.props;
 
     if (status === 'idle') {
@@ -55,7 +55,14 @@ class ImageGallery extends Component {
     if (status === 'resolved') {
       return (
       <ul className={styles.ImageGallery}>
-        <ImageGalleryItem />
+        {images.hits
+          .map((image)=>(<ImageGalleryItem
+          id={image.id}
+          source={image.webformatURL}
+          alte={image.tags}
+         />))
+        }
+                
       </ul>
     );
     }

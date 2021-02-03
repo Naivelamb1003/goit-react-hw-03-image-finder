@@ -1,16 +1,18 @@
 import PropTypes from "prop-types";
 import styles from './ImageGalleryItem.module.css';
 
-const ImageGalleryItem = ({  }) => {
+const ImageGalleryItem = ({id,source,alte}) => {
     return (
-        <li className={styles.ImageGalleryItem}>
-  <img src="" alt="" className={styles.ImageGalleryItemImage}/>
+        <li key={id} className={styles.ImageGalleryItem}>
+  <img src={source} alt={alte} className={styles.ImageGalleryItemImage}/>
 </li>
     );
   };
   
   ImageGalleryItem.propTypes = {
-    onSubmit: PropTypes.func,
+    id: PropTypes.string,
+    source: PropTypes.string,
+    alte: PropTypes.string,
     
   };
   
