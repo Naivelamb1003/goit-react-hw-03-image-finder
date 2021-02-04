@@ -45,18 +45,26 @@ class ImageGallery extends Component {
   updateStatePageNumber = () => {
     this.setState((prevState) => {
       const newPage = prevState.pageNumber + 1;
-      console.log(newPage);
+      
       return {
         pageNumber: newPage,
       };
+    });
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
     });
   };
 
   toggleModal = (event) => {
     this.setState(({ showModal }) => ({
-      event.currentTarget.: event.currentTarget.getAttribute('data-source')
+      largeImageURL: event.target.getAttribute('datalargeImageURL'),
       showModal: !showModal,
     }));
+  };
+
+  closeModal =()=>{
+    this.setState({showModal: false})
   };
 
   render() {
@@ -84,6 +92,7 @@ class ImageGallery extends Component {
                 id={image.id}
                 source={image.webformatURL}
                 alte={image.tags}
+                modalimg={image.largeImageURL}
               />
             ))}
           </ul>
@@ -91,7 +100,8 @@ class ImageGallery extends Component {
           {status === "pending" && <Loader />}
 
           {this.state.showModal && (
-            <Modal source={this.state.largeImageURL} alte={this.state.tags} />
+            <Modal source={this.state.largeImageURL} alte={this.state.tags} onClose={this.closeModal}/> 
+                        
           )}
         </>
       );
