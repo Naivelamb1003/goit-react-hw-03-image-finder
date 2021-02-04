@@ -1,19 +1,19 @@
 import PropTypes from "prop-types";
- import styles from './Modal.module.css';
+import styles from "./Modal.module.css";
 
-const ImageGalleryItem = ({  }) => {
-    return (
-        <div className="Overlay">
-  <div className="Modal">
-    <img src="" alt="" />
-  </div>
-</div>
-    );
-  };
-  
-  ImageGalleryItem.propTypes = {
-    onSubmit: PropTypes.func,
-    
-  };
-  
-  export default ImageGalleryItem;
+const Modal=({source, alte}) => {
+  return (
+    <div className={styles.Overlay}>
+      <div className={styles.Modal}>
+        <img src={source} alt={alte} />
+      </div>
+    </div>
+  );
+};
+
+Modal.propTypes = {
+  source: PropTypes.string,
+  alte: PropTypes.string,
+};
+
+export default Modal;

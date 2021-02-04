@@ -5,6 +5,7 @@ import { Component } from "react";
 import ImageAPI from "../../services/API";
 import Loader from "../Loader/Loader";
 import Button from "../Button/Button";
+import Modal from "../Modal/Modal";
 
 const Status = {
   IDLE: "idle",
@@ -19,6 +20,9 @@ class ImageGallery extends Component {
     error: null,
     status: Status.IDLE,
     pageNumber: 1,
+    showModal: false,
+    largeImageURL: null,
+    alte: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -38,17 +42,22 @@ class ImageGallery extends Component {
     }
   }
 
-  
-
-  updateStatePageNumber=()=> {
+  updateStatePageNumber = () => {
     this.setState((prevState) => {
-      const newPage=prevState.pageNumber + 1; 
+      const newPage = prevState.pageNumber + 1;
       console.log(newPage);
       return {
         pageNumber: newPage,
       };
     });
-  }
+  };
+
+  toggleModal = (event) => {
+    this.setState(({ showModal }) => ({
+      event.currentTarget.: event.currentTarget.getAttribute('data-source')
+      showModal: !showModal,
+    }));
+  };
 
   render() {
     const { images, error, status } = this.state;
@@ -68,21 +77,23 @@ class ImageGallery extends Component {
     if (status === "resolved" || (status === "pending" && images !== null)) {
       return (
         <>
-        <ul className={styles.ImageGallery}>
-          {images.hits.map((image) => (
-            <ImageGalleryItem
-              key={image.id}
-              id={image.id}
-              source={image.webformatURL}
-              alte={image.tags}
-            />
-          ))}
-        </ul>
-        <Button
-        updateStatePageNumber={this.updateStatePageNumber} />
-        { status === "pending" && <Loader />}
-      </>
-         
+          <ul className={styles.ImageGallery} onClick={this.toggleModal}>
+            {images.hits.map((image) => (
+              <ImageGalleryItem
+                key={image.id}
+                id={image.id}
+                source={image.webformatURL}
+                alte={image.tags}
+              />
+            ))}
+          </ul>
+          <Button updateStatePageNumber={this.updateStatePageNumber} />
+          {status === "pending" && <Loader />}
+
+          {this.state.showModal && (
+            <Modal source={this.state.largeImageURL} alte={this.state.tags} />
+          )}
+        </>
       );
     }
   }
