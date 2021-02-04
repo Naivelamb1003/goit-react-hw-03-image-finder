@@ -3,6 +3,7 @@ import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 import styles from "./ImageGallery.module.css";
 import { Component } from "react";
 import ImageAPI from "../../services/API"
+import Loader from "../Loader/Loader"
 
 const Status = {
   IDLE: 'idle',
@@ -45,7 +46,7 @@ class ImageGallery extends Component {
     }
 
     if (status === 'pending') {
-      return <span>Loading...</span> ;
+      return <Loader/> ;
     }
 
     if (status === 'rejected') {
