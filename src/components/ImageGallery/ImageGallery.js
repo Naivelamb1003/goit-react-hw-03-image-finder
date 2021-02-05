@@ -71,7 +71,7 @@ class ImageGallery extends Component {
     const { images, error, status } = this.state;
 
     if (status === "idle") {
-      return <div>Введите название изображения.</div>;
+      return <div className={styles.TextEror}>Введите название изображения.</div>;
     }
 
     if (status === "pending" && images === null) {
