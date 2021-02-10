@@ -37,6 +37,12 @@ class ImageGallery extends Component {
       setTimeout(() => {
         ImageAPI.fetchImage(nextSearch, this.state.pageNumber)
           .then((images) => this.setState({ images, status: Status.RESOLVED }))
+          .then(() => {
+            window.scrollTo({
+              top: document.documentElement.scrollHeight,
+              behavior: "smooth",
+            });
+          })
           .catch((error) => this.setState({ error, status: Status.REJECTED }));
       }, 2000);
     }
@@ -45,33 +51,32 @@ class ImageGallery extends Component {
   updateStatePageNumber = () => {
     this.setState((prevState) => {
       const newPage = prevState.pageNumber + 1;
-      
+
       return {
         pageNumber: newPage,
       };
     });
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
   };
 
-  toggleModal = (event) => {
+  toggleModal = (largeImg, tags) => {
     this.setState(({ showModal }) => ({
-      largeImageURL: event.target.getAttribute('datalargeImageURL'),
+      largeImageURL: largeImg,
+      tags: tags,
       showModal: !showModal,
     }));
   };
 
-  closeModal =()=>{
-    this.setState({showModal: false})
+  closeModal = () => {
+    this.setState({ showModal: false });
   };
 
   render() {
     const { images, error, status } = this.state;
 
     if (status === "idle") {
-      return <div className={styles.TextEror}>Введите название изображения.</div>;
+      return (
+        <div className={styles.TextEror}>Введите название изображения.</div>
+      );
     }
 
     if (status === "pending" && images === null) {
@@ -85,7 +90,7 @@ class ImageGallery extends Component {
     if (status === "resolved" || (status === "pending" && images !== null)) {
       return (
         <>
-          <ul className={styles.ImageGallery} onClick={this.toggleModal}>
+          <ul className={styles.ImageGallery}>
             {images.hits.map((image) => (
               <ImageGalleryItem
                 key={image.id}
@@ -93,6 +98,8 @@ class ImageGallery extends Component {
                 source={image.webformatURL}
                 alte={image.tags}
                 modalimg={image.largeImageURL}
+                tags={image.tags}
+                onClick={this.toggleModal}
               />
             ))}
           </ul>
@@ -100,8 +107,11 @@ class ImageGallery extends Component {
           {status === "pending" && <Loader />}
 
           {this.state.showModal && (
-            <Modal source={this.state.largeImageURL} alte={this.state.tags} onClose={this.closeModal}/> 
-                        
+            <Modal
+              source={this.state.largeImageURL}
+              alte={this.state.tags}
+              onClose={this.closeModal}
+            />
           )}
         </>
       );
