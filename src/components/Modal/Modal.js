@@ -4,19 +4,27 @@ import { Component } from "react";
 
 class Modal extends Component {
   componentDidMount() {
-    window.addEventListener('keyup', this.props.onClose, false)
+    window.addEventListener('keydown', this.props.onClose, false)
   }
 
   componentWillUnmount(){
-    window.removeEventListener('keyup', this.props.onClose, false)
+    window.removeEventListener('keydown', this.props.onClose, false)
   }
 
-  render (){
+
+  handleBackdropClick = e => {
+    const { onClose } = this.props;
+
+    if (e.currentTarget === e.target) {
+      onClose();
+    }}
+
+  render () {
     const {source, alte } = this.props;
   
   
   return (
-    <div className={styles.Overlay}>
+    <div className={styles.Overlay} onClick={this.handleBackdropClick}>
       <div className={styles.Modal}>
         <img src={source} alt={alte} />
       </div>

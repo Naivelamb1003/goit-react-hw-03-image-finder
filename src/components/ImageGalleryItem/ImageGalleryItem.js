@@ -8,12 +8,7 @@ const ImageGalleryItem = ({ id, source, alte, modalimg, tags, onClick }) => {
       key={id.toString()}
       onClick={() => onClick(modalimg, tags)}
     >
-      <img
-        src={source}
-        alt={alte}
-        datalargeImageURL={modalimg}
-        className={styles.ImageGalleryItemImage}
-      />
+      <img src={source} alt={alte} className={styles.ImageGalleryItemImage} />
     </li>
   );
 };
